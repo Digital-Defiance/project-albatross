@@ -1,0 +1,11 @@
+import { IEnvironment } from '../interfaces/environment';
+
+export const environment: IEnvironment = {
+  production: false,
+  auth0: {
+    domain: '{{AUTH0_DOMAIN}}',
+    clientId: '{{AUTH0_REACT_CLIENT_ID}}',
+    audience: '{{{AUTH0_AUDIENCE}}}',
+    callbackUrl: '{{{AUTH0_CALLBACK_URL}}}',
+  },
+};
