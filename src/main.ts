@@ -425,31 +425,33 @@ class ProjectAlbatross {
       console.log();
       console.log(`Under Authentication > Social via https://manage.auth0.com/dashboard/${auth0Options.countryCode}/${auth0Options.tenantName}/connections/social, feel free to delete the Google connector`);
       console.log(`Under Actions > Flows via https://manage.auth0.com/dashboard/${auth0Options.countryCode}/${auth0Options.tenantName}/actions/flows, create a new custom Login flow called "Email Verification" with the following:`)
-      console.log(`exports.onExecutePostLogin = async (event, api) => {
-          if (!event.user.email_verified) {
-            api.access.deny('Please verify your email before logging in.');
-          }
-        }`);
+      console.log(`
+exports.onExecutePostLogin = async (event, api) => {
+  if (!event.user.email_verified) {
+    api.access.deny('Please verify your email before logging in.');
+  }
+}`);
       console.log('Add the new Action to the Login flow');
       console.log('Create another flow called "Add RBAC Roles" with the following:');
-      console.log(`exports.onExecutePostLogin = async (event, api) => {
-        const namespace = 'https://${this.project.repoName}.us.auth0.com/';
-      
-        // Check if the user has roles in app_metadata or user_metadata
-        let roles = [];
-        if (event.user.app_metadata && event.user.app_metadata.roles) {
-          roles = event.user.app_metadata.roles;
-        } else if (event.user.user_metadata && event.user.user_metadata.roles) {
-          roles = event.user.user_metadata.roles;
-        }
-        console.log(event.user.app_metadata.roles);
-        console.log(event.user.user_metadata.roles);
-        console.log(roles);
-      
-        // Append roles to the ID and/or Access Token
-        api.idToken.setCustomClaim(namespace + 'roles', roles);
-        api.accessToken.setCustomClaim(namespace + 'roles', roles);
-      };`)
+      console.log(`
+exports.onExecutePostLogin = async (event, api) => {
+  const namespace = 'https://${auth0Options.tenantName}.${auth0Options.countryCode}.auth0.com/';
+
+  // Check if the user has roles in app_metadata or user_metadata
+  let roles = [];
+  if (event.user.app_metadata && event.user.app_metadata.roles) {
+    roles = event.user.app_metadata.roles;
+  } else if (event.user.user_metadata && event.user.user_metadata.roles) {
+    roles = event.user.user_metadata.roles;
+  }
+  console.log(event.user.app_metadata.roles);
+  console.log(event.user.user_metadata.roles);
+  console.log(roles);
+
+  // Append roles to the ID and/or Access Token
+  api.idToken.setCustomClaim(namespace + 'roles', roles);
+  api.accessToken.setCustomClaim(namespace + 'roles', roles);
+};`)
       console.log("Add the new Action to the Login flow after the Email Verification action");
       console.log("Auth0 should be configured and good to go at this point");
       console.log();
