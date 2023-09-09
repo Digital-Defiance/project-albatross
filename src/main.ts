@@ -765,6 +765,7 @@ class ProjectAlbatross {
       '.env',
       '.env.example',
       'devcontainer.json',
+      'docker-compose.yml',
     ];
     const sourceDir = join(__dirname, '..', 'templates', 'devcontainer');
     const destDir = join(
