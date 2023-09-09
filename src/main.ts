@@ -153,7 +153,7 @@ class ProjectAlbatross {
       await this.setupSSL();
     }
     console.log(`Your project has been set up at: ${this.projectPath}`);
-    console.log("Don't forget to copy the .env files in the API and .devcontainer folders, then open your new project in VS Code and reopen in the devcontainer.");
+    console.log("Don't forget to look over the .env files in the API and .devcontainer folders, then open your new project in VS Code and reopen in the devcontainer.");
     process.exit(0);
   }
 
@@ -691,6 +691,7 @@ class ProjectAlbatross {
     if (!this.projectPath) throw new Error('Project path not set');
     // use handlebars and template each file
     const nodeTemplates = [
+      '.env',
       '.env.example',
       'src/errors/emailExists.ts',
       'src/errors/invalidEmail.ts',
@@ -761,6 +762,7 @@ class ProjectAlbatross {
     if (!this.projectPath) throw new Error('Project path not set');
     // use handlebars and template each file
     const devcontainerTemplates = [
+      '.env',
       '.env.example',
       'devcontainer.json',
     ];
