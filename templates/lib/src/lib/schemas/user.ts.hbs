@@ -1,7 +1,5 @@
 import { Model, Schema } from 'mongoose';
 import validator from 'validator';
-import { AccountStatusTypeEnum } from '../enumerations/accountStatusType';
-import { LockTypeEnum } from '../enumerations/lockType';
 import { IUser } from '../interfaces/user';
 import { IHasID } from '../interfaces/hasId';
 import ModelName from '../enumerations/modelName';
@@ -12,13 +10,6 @@ import ModelName from '../enumerations/modelName';
 export const UserSchema = new Schema<IUser>(
   {
     auth0Id: { type: String, unique: true, index: true, required: true },
-    accountStatusType: {
-      type: String,
-      enum: Object.values(AccountStatusTypeEnum),
-      default: AccountStatusTypeEnum.Active,
-      required: true,
-      null: false,
-    },
     /**
      * The user's email address, used for login if accountType is email/password.
      * Used for sending notifications, regardless.
@@ -39,6 +30,7 @@ export const UserSchema = new Schema<IUser>(
         },
       },
     },
+    email_verified: { type: Boolean, default: false },
     /**
      * The unique @username of the user.
      */
@@ -52,23 +44,6 @@ export const UserSchema = new Schema<IUser>(
       minlength: 3,
       maxlength: 20,
     },
-    /**
-     * Whether the account is under any kind of lock.
-     */
-    lockStatus: {
-      type: String,
-      enum: Object.values(LockTypeEnum),
-      default: LockTypeEnum.PendingEmailVerification,
-    },
-    /**
-     * Posts from this account are not included in the main feed.
-     * The user sees their own posts.
-     */
-    shadowBan: { type: Boolean, default: false, required: true, null: false },
-    /**
-     * The user's profile is not visible to other users (appears deleted).
-     */
-    userHidden: { type: Boolean, default: false, required: true, null: false },
     /**
      * User's last login date/time.
      * See also logins collection.

@@ -789,7 +789,9 @@ exports.onExecutePostLogin = async (event, api) => {
     if (!this.projectPath) throw new Error('Project path not set');
     // use handlebars and template each file
     const devcontainerTemplates = [
+      '.eslintrc.json',
       '.gitignore',
+      '.prettierrc',
       'auth0-flows/add-rbac-roles.js',
       'auth0-flows/email-verification.js',
     ];
@@ -799,6 +801,40 @@ exports.onExecutePostLogin = async (event, api) => {
       this.project.repoName
     );
     await this.setupTemplates(devcontainerTemplates, sourceDir, destDir);
+
+    const packageJsonFile = join(
+      destDir,
+      'package.json'
+    );
+    // Read package.json
+    const packageJson = JSON.parse(readFileSync(packageJsonFile, 'utf8'));
+
+    // Modify the scripts section
+    packageJson.scripts = packageJson.scripts || {};
+    packageJson.scripts['new:secret'] = "node -e \"console.log (require('crypto').randomBytes(32).toString ('hex'));\"";
+    packageJson.scripts['build:all'] = `npx nx build ${this.project.libName} && npx nx build ${this.project.reactName} && npx nx build ${this.project.apiName}`;
+    packageJson.scripts['build:all:dev'] = `npx nx build ${this.project.libName} --configuration development && npx nx build ${this.project.reactName} --configuration development && npx nx build ${this.project.apiName} --configuration development`;
+    packageJson.scripts['build:node'] = `npx nx build ${this.project.apiName}`;
+    packageJson.scripts['build:node:dev'] = `npx nx build ${this.project.apiName} --configuration development`;
+    packageJson.scripts['build:react'] = `npx nx build ${this.project.reactName}`;
+    packageJson.scripts['build:react:dev'] = `npx nx build ${this.project.reactName} --configuration development`;
+    packageJson.scripts['build:lib'] = `npx nx build ${this.project.libName}`;
+    packageJson.scripts['build:lib:dev'] = `npx nx build ${this.project.libName} --configuration development`;
+    packageJson.scripts['build:react:serve'] = `npx nx serve ${this.project.reactName}`;
+    packageJson.scripts['build'] = 'yarn build:all';
+    packageJson.scripts['build:dev'] = 'yarn build:all:dev';
+    packageJson.scripts['build-serve:dev'] = `npx nx build ${this.project.libName} --configuration development && npx nx build ${this.project.reactName} --configuration development && npx nx serve ${this.project.apiName} --configuration development`;
+    packageJson.scripts['npm-globals'] = 'npm install -g yarn @nrwl/cli npx nx jest';
+    packageJson.scripts['clean:all'] = 'rm -rf node_modules dist/ ~/.cache && yarn cache clean';
+    packageJson.scripts['migrate:latest'] = 'npx nx migrate latest';
+    packageJson.scripts['migrate:run-migrations'] = 'npx nx migrate --run-migrations';
+    packageJson.scripts['lint'] = "eslint '**/*.{ts,tsx}'";
+    packageJson.scripts['lint:fix'] = "eslint '**/*.{ts,tsx}' --fix";
+    packageJson.scripts['prettier:check'] = "prettier --check '**/*.{ts,tsx}'";
+    packageJson.scripts['prettier:fix'] = "prettier --write '**/*.{ts,tsx}'";
+
+    // Write back to package.json
+    writeFileSync(packageJsonFile, JSON.stringify(packageJson, null, 2));
   }
 
   private async checkPrerequisites(): Promise<void> {
