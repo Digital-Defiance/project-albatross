@@ -39,6 +39,7 @@ enum DebugFlags {
   SKIP_TEMPLATE_NODE,
   SKIP_TEMPLATE_REACT,
   SKIP_TEMPLATE_DEVCONTAINER,
+  SKIP_TEMPLATE_PROJECT,
 }
 
 const DEBUG_FLAGS: Set<DebugFlags> = new Set();
@@ -148,6 +149,10 @@ class ProjectAlbatross {
     await skipIfDebugFlag(
       DebugFlags.SKIP_TEMPLATE_DEVCONTAINER,
       async () => await this.setupDevcontainer(),
+    );
+    await skipIfDebugFlag(
+      DebugFlags.SKIP_TEMPLATE_PROJECT,
+      async () => await this.setupProject(),
     );
     if (this.sslOptions) {
       await this.setupSSL();
@@ -774,6 +779,22 @@ exports.onExecutePostLogin = async (event, api) => {
       this.projectPath,
       this.project.repoName,
       '.devcontainer',
+    );
+    await this.setupTemplates(devcontainerTemplates, sourceDir, destDir);
+  }
+
+  private async setupProject(): Promise<void> {
+    console.log('Setting up project templates');
+    if (!this.project) throw new Error('Project not set');
+    if (!this.projectPath) throw new Error('Project path not set');
+    // use handlebars and template each file
+    const devcontainerTemplates = [
+      '.gitignore',
+    ];
+    const sourceDir = join(__dirname, '..', 'templates', 'project');
+    const destDir = join(
+      this.projectPath,
+      this.project.repoName
     );
     await this.setupTemplates(devcontainerTemplates, sourceDir, destDir);
   }
