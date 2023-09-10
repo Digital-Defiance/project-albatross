@@ -790,6 +790,8 @@ exports.onExecutePostLogin = async (event, api) => {
     // use handlebars and template each file
     const devcontainerTemplates = [
       '.gitignore',
+      'auth0-flows/add-rbac-roles.js',
+      'auth0-flows/email-verification.js',
     ];
     const sourceDir = join(__dirname, '..', 'templates', 'project');
     const destDir = join(
