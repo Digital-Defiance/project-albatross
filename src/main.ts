@@ -82,6 +82,7 @@ class ProjectAlbatross {
     'mongoose',
     'morgan',
     'nocache',
+    'react-router-dom',
     'validator',
   ];
   private readonly devDependencies: string[] = [
@@ -90,6 +91,7 @@ class ProjectAlbatross {
     // '@types/express-session',
     '@types/jsonwebtoken',
     '@types/morgan',
+    '@types/react-router-dom',
     '@types/validator',
   ];
 
@@ -602,7 +604,7 @@ exports.onExecutePostLogin = async (event, api) => {
     for (const templateFile of templateFiles) {
       // make sure the directory exists
       const directory = dirname(templateFile);
-      const sourceFile = join(sourceRoot, `${templateFile}.hbs`);
+      const sourceFile = join(sourceRoot, `${templateFile}.mustache`);
       if (!existsSync(sourceFile)) {
         throw new Error(`Source file ${sourceFile} does not exist`);
       }
