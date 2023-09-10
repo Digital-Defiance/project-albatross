@@ -161,6 +161,7 @@ class ProjectAlbatross {
     }
     console.log(`Your project has been set up at: ${this.projectPath}`);
     console.log("Don't forget to look over the .env files in the API and .devcontainer folders, then open your new project in VS Code and reopen in the devcontainer.");
+    console.log("Once the yarn prerequisites are installed, you cna run the project with yarn build-serve:dev");
     process.exit(0);
   }
 
