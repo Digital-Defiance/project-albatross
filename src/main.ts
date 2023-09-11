@@ -35,6 +35,8 @@ enum DebugFlags {
   SKIP_CREATE_REACT,
   SKIP_CREATE_LIB,
   SKIP_SSL,
+  SKIP_MONGO_USERNAME,
+  SKIP_MONGO_PASSWORD,
   SKIP_TEMPLATE_LIB,
   SKIP_TEMPLATE_NODE,
   SKIP_TEMPLATE_REACT,
@@ -68,6 +70,7 @@ class ProjectAlbatross {
   private sslOptions?: ISSLOptions;
   private auth0Options?: IAuth0Options;
   private mongoDbPassword: string = randomBytes(16).toString('hex');
+  private mongoDbUsername = '';
   private readonly dependencies: string[] = [
     '@auth0/auth0-react',
     '@auth0/auth0-spa-js',
@@ -101,6 +104,14 @@ class ProjectAlbatross {
     await this.showWelcome();
     this.project = await this.askForProjectName();
     this.projectPath = await this.askForProjectPath();
+    await skipIfDebugFlag(
+      DebugFlags.SKIP_MONGO_USERNAME,
+      async () => await this.promptMongoDbUsername(),
+    );
+    await skipIfDebugFlag(
+      DebugFlags.SKIP_MONGO_PASSWORD,
+      async () => await this.promptMongoDbPassword(),
+    );
     const sslEnabled = hasDebugFlag(DebugFlags.SKIP_SSL)
       ? false
       : await this.promptSSL();
@@ -200,13 +211,14 @@ class ProjectAlbatross {
       },
     ]);
 
-    const projectName = answers.name.toLowerCase().replace(/ /g, '-');
+    const repoName = answers.name.toLowerCase().replace(/ /g, '-');
+    this.mongoDbUsername = repoName;
     return {
       name: answers.name,
-      repoName: projectName,
-      apiName: `${projectName}-api`,
-      reactName: `${projectName}-react`,
-      libName: `${projectName}-lib`,
+      repoName: repoName,
+      apiName: `${repoName}-api`,
+      reactName: `${repoName}-react`,
+      libName: `${repoName}-lib`,
     };
   }
 
@@ -637,7 +649,9 @@ exports.onExecutePostLogin = async (event, api) => {
         AUTH0_REACT_CLIENT_ID: this.auth0Options?.reactClientId,
         AUTH0_SCOPE: this.auth0Options?.scope,
         AUTH0_TENANT_NAME: this.auth0Options?.tenantName,
+        MONGO_DB_USERNAME: this.mongoDbUsername,
         MONGO_DB_PASSWORD: this.mongoDbPassword,
+        MONGO_URI: `mongodb://${encodeURIComponent(this.mongoDbUsername)}:${encodeURIComponent(this.mongoDbPassword)}@mongo:27017/${encodeURIComponent(this.mongoDbUsername)}?authSource=admin`
       };
       const result = mustache.render(templateContent, data);
       const destFile = join(destRoot, templateFile);
@@ -881,6 +895,25 @@ exports.onExecutePostLogin = async (event, api) => {
     }
   }
 
+  private async promptMongoDbUsername(): Promise<void> {
+    while (true) {
+      const { mongoDbUsername: mongoDbUsername } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'mongoDbUsername',
+          message: 'What do you want your MongoDB username to be?',
+          default: this.mongoDbUsername,
+        },
+      ]);
+      if (!mongoDbUsername || mongoDbUsername.trim().length === 0) {
+        console.log('Please enter a valid MongoDB username');
+        continue;
+      }
+      this.mongoDbUsername = mongoDbUsername;
+      return;
+    }
+  }
+
   private async promptMongoDbPassword(): Promise<void> {
     while (true) {
       const { mongoDbPassword } = await inquirer.prompt([
@@ -896,7 +929,7 @@ exports.onExecutePostLogin = async (event, api) => {
         continue;
       }
       this.mongoDbPassword = mongoDbPassword;
-      break;
+      return;
     }
   }
 }
