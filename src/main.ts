@@ -212,7 +212,7 @@ class ProjectAlbatross {
     ]);
 
     const repoName = answers.name.toLowerCase().replace(/ /g, '-');
-    this.mongoDbUsername = repoName;
+    this.mongoDbUsername = repoName.replace(/-/g, '');
     return {
       name: answers.name,
       repoName: repoName,
