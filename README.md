@@ -5,7 +5,7 @@ This helper will take you through the generation of an NX monorepo with a React 
 First, prerequisites:
 
 * Node installed
-  * [Node.js (nodejs.org)](https://nodejs.org/en)
+  * [Node.js (nodejs.org)](https://nodejs.org/en) >= Node 18
 * yarn installed globally
   * npm install -g yarn
 * nx installed globally
