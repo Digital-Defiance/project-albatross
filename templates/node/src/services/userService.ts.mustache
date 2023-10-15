@@ -49,7 +49,7 @@ export class UserService {
 
     try {
       // Register user in Auth0
-      const auth0User = await managementClient.createUser({
+      const auth0UserResponse = await managementClient.users.create({
         connection: environment.auth0.database,
         email: email,
         username: username,
@@ -58,6 +58,10 @@ export class UserService {
           /* any user metadata */
         },
       });
+      if (!auth0UserResponse || (auth0UserResponse.status !== 201)) {
+        throw new Error('Error creating user in Auth0:' + auth0UserResponse.statusText);
+      }
+      const auth0User = auth0UserResponse.data;
 
       // Register user in local MongoDB
       const newUser = await UserModel.create({

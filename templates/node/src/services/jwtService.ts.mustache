@@ -1,4 +1,4 @@
-import { User } from 'auth0';
+import { GetUsers200ResponseOneOfInner } from 'auth0';
 import {
   JwtHeader,
   JwtPayload,
@@ -40,7 +40,7 @@ export class JwtService {
 
   async validateAccessTokenAndFetchAuth0User(
     frontEndAccessToken: string,
-  ): Promise<User> {
+  ): Promise<GetUsers200ResponseOneOfInner> {
     const decoded = await new Promise<JwtPayload | null>((resolve, reject) => {
       verify(
         frontEndAccessToken,
@@ -60,19 +60,19 @@ export class JwtService {
       throw new Error('Invalid token');
     }
 
-    const user = await managementClient.getUser({ id: decoded.sub });
+    const apiResponse = await managementClient.users.get({ id: decoded.sub });
 
-    if (!user) {
+    if (!apiResponse || (apiResponse.status !== 200)) {
       throw new Error('User not found');
     }
 
-    return user;
+    return apiResponse.data;
   }
 
   public async authenticateUser(
     req: Request,
     res: Response,
-    next: (appUser: Document & IUser, auth0User: User) => void,
+    next: (appUser: Document & IUser, auth0User: GetUsers200ResponseOneOfInner) => void,
   ) {
     const accessToken = req.headers.authorization?.split(' ')[1];
     if (!accessToken) {
