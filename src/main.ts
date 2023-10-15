@@ -69,6 +69,7 @@ class ProjectAlbatross {
   private projectPath?: string;
   private sslOptions?: ISSLOptions;
   private auth0Options?: IAuth0Options;
+  private mongoDbDatabase = '';
   private mongoDbPassword: string = randomBytes(16).toString('hex');
   private mongoDbUsername = '';
   private readonly dependencies: string[] = [
@@ -213,6 +214,7 @@ class ProjectAlbatross {
     ]);
 
     const repoName = answers.name.toLowerCase().replace(/ /g, '-');
+    this.mongoDbDatabase = repoName;
     this.mongoDbUsername = repoName.replace(/-/g, '');
     return {
       name: answers.name,
@@ -650,9 +652,10 @@ exports.onExecutePostLogin = async (event, api) => {
         AUTH0_REACT_CLIENT_ID: this.auth0Options?.reactClientId,
         AUTH0_SCOPE: this.auth0Options?.scope,
         AUTH0_TENANT_NAME: this.auth0Options?.tenantName,
+        MONGO_DB_DATABASE: this.mongoDbDatabase,
         MONGO_DB_USERNAME: this.mongoDbUsername,
         MONGO_DB_PASSWORD: this.mongoDbPassword,
-        MONGO_URI: `mongodb://${encodeURIComponent(this.mongoDbUsername)}:${encodeURIComponent(this.mongoDbPassword)}@mongo:27017/${encodeURIComponent(this.mongoDbUsername)}?authSource=admin`
+        MONGO_URI: `mongodb://${encodeURIComponent(this.mongoDbUsername)}:${encodeURIComponent(this.mongoDbPassword)}@mongo:27017/${encodeURIComponent(this.mongoDbDatabase)}?authSource=admin`
       };
       const result = mustache.render(templateContent, data);
       const destFile = join(destRoot, templateFile);
