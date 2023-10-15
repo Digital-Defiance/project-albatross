@@ -96,6 +96,7 @@ class ProjectAlbatross {
     '@types/morgan',
     '@types/react-router-dom',
     '@types/validator',
+    'tsconfig-paths'
   ];
 
   constructor() { }
