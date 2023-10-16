@@ -17,7 +17,7 @@ const host = process.env.SERVER_HOST ?? 'localhost';
 const port = Number(process.env.PORT ?? 3000);
 const production = process.env.NODE_ENV === 'production';
 const sslEnabled = process.env.SSL_ENABLED === 'true';
-const reactDir = relativeToDist('apps', '{{PROJECT_REACT_NAME}}');
+const reactDir = relativeToDist('{{PROJECT_REACT_NAME}}');
 
 function getSiteUrl() {
   const proto = sslEnabled ? 'https' : 'http';
