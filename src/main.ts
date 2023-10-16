@@ -728,6 +728,7 @@ exports.onExecutePostLogin = async (event, api) => {
     const nodeTemplates = [
       '.env',
       '.env.example',
+      'src/errors/baseError.ts',
       'src/errors/emailExists.ts',
       'src/errors/invalidEmail.ts',
       'src/errors/invalidPassword.ts',
