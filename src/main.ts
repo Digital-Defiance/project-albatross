@@ -417,6 +417,8 @@ class ProjectAlbatross {
     console.log('Now, under its settings, enable RBAC, and "Add permissions in the access token" and click save.');
     console.log('Under Permissions for the new API, add "create:users"');
     console.log('Then go into the settings for the default "Auth0 Management API" under Machine to Machine Applications and enable your new API.');
+    console.log('Under the settings for the default API, in the Machine to Machine Applications tab, enable the new API labeled (Test Application).');
+    console.log('Drop down the arrow at the right and in the permissions that are revealed, click select all, and then click update.');
     console.log();
 
     while (true) {
@@ -778,6 +780,7 @@ exports.onExecutePostLogin = async (event, api) => {
       'src/interfaces/environment.ts',
       'src/pages/account-error.tsx',
       'src/pages/user-profile.tsx',
+      'src/pages/register.tsx',
       'src/main.tsx',
     ];
     const sourceDir = join(__dirname, '..', 'templates', 'react');
