@@ -78,18 +78,22 @@ export class JwtService {
     if (!accessToken) {
       return res.status(401).json({ message: 'Access token not found' });
     }
+    try {
+      const auth0User =
+        await this.validateAccessTokenAndFetchAuth0User(accessToken);
+      if (!auth0User.user_id) {
+        return res.status(401).json({ message: 'Unable to determine user id' });
+      }
 
-    const auth0User =
-      await this.validateAccessTokenAndFetchAuth0User(accessToken);
-    if (!auth0User.user_id) {
-      return res.status(401).json({ message: 'Unable to determine user id' });
+      const user = await UserService.getUserByAuth0Id(auth0User.user_id);
+      if (!user) {
+        return res.status(401).json({ message: 'User not found' });
+      }
+
+      next(user, auth0User);
     }
-
-    const user = await UserService.getUserByAuth0Id(auth0User.user_id);
-    if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+    catch (ex) {
+      return res.status(401).json({ message: 'Invalid access token' });
     }
-
-    next(user, auth0User);
   }
 }
