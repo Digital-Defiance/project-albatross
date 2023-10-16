@@ -35,6 +35,7 @@ enum DebugFlags {
   SKIP_CREATE_REACT,
   SKIP_CREATE_LIB,
   SKIP_SSL,
+  SKIP_MONGO_DATABASE,
   SKIP_MONGO_USERNAME,
   SKIP_MONGO_PASSWORD,
   SKIP_TEMPLATE_LIB,
@@ -106,6 +107,10 @@ class ProjectAlbatross {
     await this.showWelcome();
     this.project = await this.askForProjectName();
     this.projectPath = await this.askForProjectPath();
+    await skipIfDebugFlag(
+      DebugFlags.SKIP_MONGO_DATABASE,
+      async () => await this.promptMongoDbDatabase(),
+    );
     await skipIfDebugFlag(
       DebugFlags.SKIP_MONGO_USERNAME,
       async () => await this.promptMongoDbUsername(),
@@ -214,7 +219,7 @@ class ProjectAlbatross {
     ]);
 
     const repoName = answers.name.toLowerCase().replace(/ /g, '-');
-    this.mongoDbDatabase = repoName;
+    this.mongoDbDatabase = repoName.replace(/-/g, '');
     this.mongoDbUsername = repoName.replace(/-/g, '');
     return {
       name: answers.name,
@@ -899,6 +904,25 @@ exports.onExecutePostLogin = async (event, api) => {
     }
   }
 
+  private async promptMongoDbDatabase(): Promise<void> {
+    while (true) {
+      const { mongoDbDatabase: mongoDbDatabase } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'mongoDbDatabase',
+          message: 'What do you want your MongoDB database name to be?',
+          default: this.mongoDbDatabase,
+        },
+      ]);
+      if (!mongoDbDatabase || mongoDbDatabase.trim().length === 0) {
+        console.log('Please enter a valid MongoDB database name');
+        continue;
+      }
+      this.mongoDbDatabase = mongoDbDatabase.trim();
+      return;
+    }
+  }
+
   private async promptMongoDbUsername(): Promise<void> {
     while (true) {
       const { mongoDbUsername: mongoDbUsername } = await inquirer.prompt([
@@ -913,7 +937,7 @@ exports.onExecutePostLogin = async (event, api) => {
         console.log('Please enter a valid MongoDB username');
         continue;
       }
-      this.mongoDbUsername = mongoDbUsername;
+      this.mongoDbUsername = mongoDbUsername.trim();
       return;
     }
   }
@@ -932,7 +956,7 @@ exports.onExecutePostLogin = async (event, api) => {
         console.log('Please enter a valid MongoDB Password');
         continue;
       }
-      this.mongoDbPassword = mongoDbPassword;
+      this.mongoDbPassword = mongoDbPassword.trim();
       return;
     }
   }
