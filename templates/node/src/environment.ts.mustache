@@ -48,7 +48,7 @@ export const environment: IEnvironment = {
     audience: process.env.AUTH0_AUDIENCE ?? '',
   },
   mongo: {
-    uri: process.env.MONGO_URI ?? 'mongodb://localhost:27017/{{PROJECT_REPO_NAME}}',
+    uri: process.env.MONGO_URI ?? 'mongodb://localhost:27017/{{MONGO_DB_DATABASE}}',
   },
   cookies: {
     enabled: process.env.COOKIE_ENABLED === 'true',
