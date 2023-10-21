@@ -24,52 +24,67 @@ yarn run v1.22.19
 $ tsc && node dist/main.js
 ```
 
-![image-20231016155347690](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016155347690.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/e2a128ee-fc02-456d-ab21-fb9772c98a6e)
+
 
 Press enter to continue.
 
 At the next prompt, type the name of your project- our example is called "Albatross One"
 
-![image-20231016155444410](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016155444410.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/74712bf1-6383-4f61-b0b9-8beab207ead0)
+
 
 Next, input where you'd like the project to be created underneath
 
-![image-20231016155548887](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016155548887.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/d027793d-def2-4b26-8412-789dea7ceb29)
+
 
 Next, choose your MongoDB database name, username, and password. If you accept the default, hidden password, a random password will be placed into the appropriate .env files and will be visible to you there after the project is created.
 
-![image-20231016155645498](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016155645498.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/d9211efe-fadd-44da-9be5-d784b3a78192)
+
 
 Next, choose whether you want SSL or not. If you do, you must have openssl installed and be prepared to follow the prompts. In our case, we chose not to enable SSL.
-![image-20231016155817404](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016155817404.png)
+
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/72498f8a-9525-48ca-b9d6-3dc9e6273f07)
+
 
 After SSL options are decided or skipped, Project Albatross will run the initial project generation steps for you and being creating your application in the directory you specified above.
 
-![image-20231016160009920](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016160009920.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/ea7e89f8-8b28-4af0-95fd-749653930fc2)
+
 
 This will continue for several minutes. When it completes, it will begin prompting us for Auth0 Configuration.
 
-![image-20231016160344851](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016160344851.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/31da07a7-cb7c-4e70-969a-128df331af20)
+
 
 In the Auth0 dashboard, create your first tenant
 
-![image-20231016160602145](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016160602145.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/28632fad-b614-4625-bd40-872de364c55c)
+
 
 Now delete the default application and create a new SPA application.
 From it's Settings page, input the domain shown
-![image-20231016161040881](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161040881.png)
 
-![image-20231016161149930](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161149930.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/6dd6aa8d-4f07-4539-ac84-f16c9e07edaf)
+
+
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/aa64f540-74e7-4572-9b17-f70972cba04a)
+
 
 On the next prompt, input the client ID shown below the domain:
 
-![image-20231016161256563](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161256563.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/0582d012-2c47-4ac2-94d8-460dccd3924c)
+
 
 Next, set the callback, logout, origin, and CORS URLs in the settings of the SPA application in the Auth0 dashboard
 
-![image-20231016161611855](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161611855.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/4cbf3ec7-86c2-40b1-92dc-c8c92ecd41df)
 
-![image-20231016161736315](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161736315.png)
+
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/48c9a4ad-9372-401c-93dc-4e812690d519)
+
 
 Follow the provided link in the console similar to the one below and create a new API as instructed.
 
@@ -84,32 +99,41 @@ Drop down the arrow at the right and in the permissions that are revealed, click
 ```
 
 
-![image-20231016161820403](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161820403.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/c45faae6-4340-4996-9bbe-284e8d2a69d6)
 
-![image-20231016162014226](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016162014226.png)
+
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/0b333716-ef19-4e4d-8059-e1271e7b65e2)
+
 
 Click Create API and then fill in the details
 
-![image-20231016162053601](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016162053601.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/383166be-6a6f-43ff-abbe-f05c64785f72)
+
 
 In the new API, enable RBAC and "Add permissions in the Access Token".
 
-![image-20231016162140648](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016162140648.png) 
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/1817dbff-2aa8-49f3-a302-c148e67068ab)
 
-![image-20231016161523739](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016161523739.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/56bc672a-9826-40fc-9c76-b2e25eea8849)
+
 
 Under the default API (Auth0 Management API), under Machine to Machine Applications, enable the new (Test Application) and select all permissions and then click update. 
 
-![image-20231016154701624](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016154701624.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/b6082ce8-58b9-4c15-87a7-65b6417fc722)
+
 
 In the new API,
 
-![image-20231016154842738](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016154842738.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/3fe63ea6-02d5-4907-8aff-5eec330b673c)
+
 
 Under Machine to Machine Applications, enable the new permissions
-![image-20231016154939329](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231016154939329.png)
 
-![image-20231017162209146](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20231017162209146.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/43bdb1a4-d010-429b-ae13-8cbfbdeee9eb)
+
+
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/4e184a86-1c47-47d1-972e-f87b51f4139e)
+
 
 ```
 Auth0 Configuration
@@ -252,4 +276,5 @@ Once the yarn prerequisites are installed, you cna run the project with yarn bui
 Done in 88049.19s.
 ```
 
-![image-20230910141448892](C:\Users\JessicaMulein\AppData\Roaming\Typora\typora-user-images\image-20230910141448892.png)
+![image](https://github.com/Digital-Defiance/project-albatross/assets/3766240/85415618-f4b4-4216-ad94-70e7f91f60c9)
+
