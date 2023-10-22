@@ -1,6 +1,6 @@
 # Project Albatross
 
-This helper will take you through the generation of an NX monorepo with a React frontend that uses Auth0 for authentication, a Node backend, and set up a devcontainer with a Mongo database.
+This helper will take you through the generation of an NX monorepo with a React frontend that uses Auth0 for authentication, a Node backend, and set up a devcontainer with a Mongo database. Much of the heavy lifting of producing an application is done for you. It produces a working app with a framework in place for mongo models representing users, including authentication with a login callback that keeps mongo up to date regarding users having a verified email address from Auth0. There is also a basic registration page. There is also a pattern in place for authentication of routes.
 
 First, prerequisites:
 
